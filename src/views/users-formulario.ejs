@@ -1,0 +1,98 @@
+<%- include('includes/head') %>
+
+<body>
+    <%- include('includes/nav') %>
+
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-600"><%= data.title %></h1>
+        <% if (data.errorMessage) { %>
+            <div class="bg-red-100 text-red-600 p-4 rounded mb-4">
+                <%= data.errorMessage %>
+            </div>
+        <% } %>
+        <form action="/users/add" method="post" id="user-form" class="bg-white shadow-lg rounded-lg p-8">
+            <div class="mb-4">
+                <label for="name" class="block text-lg font-medium mb-2">Nome:</label>
+                <input type="text" name="name" required class="border border-gray-300 rounded-md p-2 w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-lg font-medium mb-2">Email:</label>
+                <input type="email" name="email" required class="border border-gray-300 rounded-md p-2 w-full">
+            </div>
+            <label for="emails" class="block text-lg font-medium mb-2">Outros emails:</label>
+            <div id="email-container" class="mb-4">
+                
+            </div>
+            <button type="button" id="add-email" class="bg-blue-500 text-white rounded-md px-4 py-2">Adicionar Email</button>
+
+            <div class="mb-4">
+                <label for="password" class="block text-lg font-medium mb-2">Senha:</label>
+                <input type="password" name="password" required class="border border-gray-300 rounded-md p-2 w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="cpf" class="block text-lg font-medium mb-2">CPF:</label>
+                <input type="text" name="cpf" required class="border border-gray-300 rounded-md p-2 w-full">
+            </div>
+
+            <div class="mb-4">
+                <label for="profile" class="block text-lg font-medium mb-2">Perfil:</label>
+                <select name="profile" required class="border border-gray-300 rounded-md p-2 w-full">
+                    <option value="ADMIN">Admin</option>
+                    <option value="CLIENTE">Cliente</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="telefone_principal" class="block text-lg font-medium mb-2">Telefone Principal:</label>
+                <input type="tel" name="telefone_principal" required class="border border-gray-300 rounded-md p-2 w-full">
+            </div>
+
+            <label for="telefones" class="block text-lg font-medium mb-2">Outros números de contato:</label>
+            <div id="telefone-container" class="mb-4">
+                
+            </div>
+            <button type="button" id="add-telefone" class="bg-blue-500 text-white rounded-md px-4 py-2">Adicionar Telefone</button>
+
+            <div class="mt-6">
+                <button type="submit" class="bg-green-500 text-white rounded-md px-4 py-2">CADASTRAR</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('add-email').addEventListener('click', function() {
+            const emailContainer = document.getElementById('email-container');
+            const newInput = document.createElement('div');
+            newInput.classList.add('email-input', 'mb-2', 'flex', 'items-center');
+            newInput.innerHTML = `
+                <input type="email" name="emails" required class="border border-gray-300 rounded-md p-2 w-full">
+                <span class="remove-email text-red-500 cursor-pointer ml-2" title="Remover">✖</span>
+            `;
+            emailContainer.appendChild(newInput);
+        });
+        document.getElementById('email-container').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-email')) {
+                e.target.parentElement.remove();
+            }
+        });
+        document.getElementById('add-telefone').addEventListener('click', function() {
+            const telefoneContainer = document.getElementById('telefone-container');
+            const newInput = document.createElement('div');
+            newInput.classList.add('telefone-input', 'mb-2', 'flex', 'items-center');
+            newInput.innerHTML = `
+                <input type="tel" name="telefones" required class="border border-gray-300 rounded-md p-2 w-full">
+                <span class="remove-telefone text-red-500 cursor-pointer ml-2" title="Remover">✖</span>
+            `;
+            telefoneContainer.appendChild(newInput);
+        });
+
+        document.getElementById('telefone-container').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-telefone')) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
+</body>
+</html>

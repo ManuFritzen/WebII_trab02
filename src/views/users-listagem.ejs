@@ -1,0 +1,85 @@
+<%- include('includes/head') %>
+
+<body>
+    <%- include('includes/nav') %>
+
+    <div class="container mx-auto mt-8">
+        <h1 class="text-2xl font-bold mb-4">Lista de Usuários</h1>
+        
+        <form method="GET" action="/users" class="mb-4 flex space-x-2">
+            <input type="text" name="name" value="<%= data.name %>" placeholder="Buscar por nome" class="border rounded p-2 flex-grow">
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded">Buscar</button>
+            <a href="/users" class="bg-red-500 text-white p-2 rounded">Limpar Busca</a> 
+        </form>
+
+        <div class="bg-white shadow-md rounded my-6">
+          <table class="min-w-full table-auto">
+              <thead>
+                  <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                      <th class="py-3 px-6 text-left">ID</th>
+                      <th class="py-3 px-6 text-left">Nome</th>
+                      <th class="py-3 px-6 text-left">CPF</th>
+                      <th class="py-3 px-6 text-left">Email</th>
+                      <th class="py-3 px-6 text-left">Telefone Principal</th>
+                      <th class="py-3 px-6 text-left">Perfil</th>
+                      <th class="py-3 px-6 text-left">Ações</th>
+                  </tr>
+              </thead>
+              <tbody class="text-gray-600 text-sm font-light">
+                  <% if (data.users.length > 0) { %>
+                      <% data.users.forEach(function(user) { %>
+                          <tr class="border-b border-gray-200 hover:bg-gray-100">
+                              <td class="py-3 px-6 text-left"><%= user.id %></td>
+                              <td class="py-3 px-6 text-left"><%= user.name %></td>
+                              <td class="py-3 px-6 text-left"><%= user.cpf %></td>
+                              <td class="py-3 px-6 text-left"><%= user.email %></td>
+                              <td class="py-3 px-6 text-left"><%= user.telefone_principal %></td>
+                              <td class="py-3 px-6 text-left"><%= user.profile %></td>
+                              <td class="py-3 px-6 text-left flex space-x-2">
+                                  <a href="/users/<%= user.id %>" class="text-blue-500" title="Ver">
+                                      <i class="fas fa-eye"></i> 
+                                  </a>
+                                  <a href="/users/<%= user.id %>/edit" class="text-blue-500" title="Editar">
+                                      <i class="fas fa-edit"></i> 
+                                  </a>
+                                  <% if(user.profile !== 'ADMIN') { %>
+                                      <a href="/users/<%= user.id %>/delete" 
+                                         class="text-red-500" 
+                                         title="Excluir" 
+                                         onclick="return confirm('Você realmente deseja excluir este usuário?');">
+                                          <i class="fas fa-trash-alt"></i> 
+                                      </a>
+                                    <% } %>
+                                  
+                              </td>
+                          </tr>
+                      <% }) %>
+                  <% } else { %>
+                      <tr>
+                          <td colspan="7" class="py-3 px-6 text-center text-gray-500">Nenhum usuário encontrado.</td>
+                      </tr>
+                  <% } %>
+              </tbody>
+          </table>
+      </div>
+      
+
+        <div class="flex justify-between items-center mt-4">
+            <span class="text-sm text-gray-600">
+                Mostrando <%= (data.currentPage - 1) * 5 + 1 %> a <%= Math.min(data.currentPage * 5, data.totalPages * 5) %> usuários  de <%= data.totalPages %> páginas
+            </span>
+            <nav class="inline-flex shadow-sm">
+                <% if (data.currentPage > 1) { %>
+                    <a href="?page=<%= data.currentPage - 1 %>&name=<%= data.name %>" class="px-3 py-1 bg-gray-300 text-gray-800 rounded-l-md">Anterior</a>
+                <% } %>
+                <% for (let i = 1; i <= data.totalPages; i++) { %>
+                    <a href="?page=<%= i %>&name=<%= data.name %>" class="px-3 py-1 bg-gray-300 text-gray-800 <%= data.currentPage === i ? 'font-bold' : '' %>"><%= i %></a>
+                <% } %>
+                <% if (data.currentPage < data.totalPages) { %>
+                    <a href="?page=<%= data.currentPage + 1 %>&name=<%= data.name %>" class="px-3 py-1 bg-gray-300 text-gray-800 rounded-r-md">Próximo</a>
+                <% } %>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<%- include('includes/head') %>
+
+<body>
+    <%- include('includes/nav') %>
+
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-600"><%= data.user.name %></h1>
+        
+        <div class="bg-white shadow-lg rounded-lg p-8">
+            <p class="text-lg"><strong>ID:</strong> <span class="font-medium"><%= data.user.id %></span></p>
+            <p class="text-lg"><strong>CPF:</strong> <span class="font-medium"><%= data.user.cpf %></span></p>
+            <p class="text-lg"><strong>Email:</strong> <span class="font-medium"><%= data.user.email %></span></p>
+            <p class="text-lg"><strong>Emails Secundários:</strong></p>
+            <ul class="list-disc pl-5 mb-4">
+                <% if (data.user.emails && data.user.emails.length > 0) { %>
+                    <% data.user.emails.forEach(function(email) { %>
+                        <li class="text-lg"><%= email.email %></li>
+                    <% }); %>
+                <% } else { %>
+                    <li class="text-lg">Nenhum email disponível</li>
+                <% } %>
+            </ul>
+            <p class="text-lg"><strong>Telefone Principal:</strong> <span class="font-medium"><%= data.user.telefone_principal || 'Não disponível' %></span></p>
+            <p class="text-lg"><strong>Telefones Secundários:</strong></p>
+            <ul class="list-disc pl-5 mb-4">
+                <% if (data.user.telefones && data.user.telefones.length > 0) { %>
+                    <% data.user.telefones.forEach(function(telefone) { %>
+                        <li class="text-lg"><%= telefone.telefone %></li>
+                    <% }); %>
+                <% } else { %>
+                    <li class="text-lg">Nenhum número disponível</li>
+                <% } %>
+            </ul>
+            <p class="text-lg"><strong>Perfil:</strong> <span class="font-medium"><%= data.user.profile %></span></p>
+
+            <div class="mt-6">
+                <a href="/users" class="text-blue-500 hover:underline transition duration-200">Voltar para a lista de usuários</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
