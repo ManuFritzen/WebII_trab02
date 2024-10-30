@@ -45,9 +45,9 @@ async function addUser(req, res) {
         return res.status(400).send("Nome, email, senha, CPF e telefone principal são obrigatórios.");
     }
 
-    const telefonesArray = Array.isArray(dados.telefones) ? dados.telefones : [dados.telefones].filter(Boolean);
+    let telefonesArray = Array.isArray(dados.telefones) ? dados.telefones : [dados.telefones].filter(Boolean);
 
-    const emailsArray = Array.isArray(dados.emails) ? dados.emails : [dados.emails].filter(Boolean);
+    let emailsArray = Array.isArray(dados.emails) ? dados.emails : [dados.emails].filter(Boolean);
 
     const newUser = {
         name: dados.name,
@@ -112,40 +112,35 @@ function paginaEditUser(req, res) {
 
 function updateUser(req, res) {
     const userDao = new UserDao();
-    const idUser = req.params.id;
+    const userId = req.params.id;
     const dados = req.body;
 
-    console.log("Dados recebidos:", dados);
 
     if (!dados.password || !dados.telefone_principal) {
         return res.status(400).send("Senha e telefone principal são obrigatórios.");
     }
 
-    const telefonesArray = Array.isArray(dados.telefones) ? dados.telefones : [dados.telefones].filter(Boolean);
-    console.log("Array de telefones:", telefonesArray);
+    let telefonesArray = Array.isArray(dados.telefones) ? dados.telefones : [dados.telefones].filter(Boolean);
 
-    const emailsArray = Array.isArray(dados.emails) ? dados.emails : [dados.emails].filter(Boolean);
-    console.log("Array de emails:", emailsArray); 
-
+    let emailsArray = Array.isArray(dados.emails) ? dados.emails : [dados.emails].filter(Boolean);
+    
     const user = {
         email: dados.email,
         password: dados.password,
         cpf: dados.cpf,
         telefone_principal: dados.telefone_principal,
         profile: dados.profile,
-        id: idUser,
-        telefones: telefonesArray,
-        emails: emailsArray
+        id: userId
     };
 
     try {
         userDao.update(user);
 
         for (const telefone of telefonesArray) {
-            userDao.addtelefone(user.id, telefone);
+            userDao.addtelefone(userId, telefone);
         }
         for (const email of emailsArray) {
-            userDao.addemail(user.id, email);
+            userDao.addemail(userId, email);
         }
 
         res.redirect("/users");

@@ -9,7 +9,6 @@
         <div class="bg-white shadow-lg rounded-lg p-8">
             <form action="/users/<%= data.user.id %>" method="POST">
 
-                
                 <div class="mb-4">
                     <label for="cpf" class="text-lg font-bold">CPF:</label>
                     <input type="text" id="cpf" name="cpf" value="<%= data.user.cpf %>" readonly class="bg-gray-200 text-gray-600 border border-gray-300 rounded-md p-2 w-full cursor-not-allowed" />
@@ -20,12 +19,12 @@
                     <input type="email" id="email" name="email" value="<%= data.user.email %>"  readonly class="bg-gray-200 text-gray-600 border border-gray-300 rounded-md p-2 w-full cursor-not-allowed" />
                 </div>
                 <div class="mb-4">
-                    <label for="emails[]" class="text-lg font-bold">Emails Secundários:</label>
+                    <label for="emails" class="text-lg font-bold">Emails Secundários:</label>
                     <ul id="emails-list" class="list-disc pl-5 mb-4">
                         <% if (data.user.emails && data.user.emails.length > 0) { %>
                             <% data.user.emails.forEach(function(email, index) { %>
                                 <li>
-                                    <input type="text" name="emails[]" value="<%= email.email %>" class="border border-gray-300 rounded-md p-2 w-full mb-2" />
+                                    <input type="text" name="emails" required value="<%= email.email %>" class="border border-gray-300 rounded-md p-2 w-full mb-2" />
                                     <button type="button" class="text-red-500 hover:text-red-700 ml-2" onclick="removeEmail(this)">Excluir</button>
                                 </li>
                             <% }); %>
@@ -37,21 +36,21 @@
                 </div>
                 <div class="mb-4">
                     <label for="password" class="block text-lg font-medium mb-2">Senha:</label>
-                    <input type="password" name="password" value="<%= data.user.password %>"" class="border border-gray-300 rounded-md p-2 w-full">
+                    <input type="password" name="password" required value="<%= data.user.password %>"" class="border border-gray-300 rounded-md p-2 w-full">
                 </div>
 
                 <div class="mb-4">
                     <label for="telefone_principal" class="text-lg font-bold">Telefone Principal:</label>
-                    <input type="text" id="telefone_principal" name="telefone_principal" value="<%= data.user.telefone_principal || '' %>" class="border border-gray-300 rounded-md p-2 w-full" />
+                    <input type="text" id="telefone_principal" name="telefone_principal" required value="<%= data.user.telefone_principal || '' %>" class="border border-gray-300 rounded-md p-2 w-full" />
                 </div>
 
                 <div class="mb-4">
-                    <label for="telefones[]" class="text-lg font-bold">Telefones Secundários:</label>
+                    <label for="telefones" class="text-lg font-bold">Telefones Secundários:</label>
                     <ul id="telefones-list" class="list-disc pl-5 mb-4">
                         <% if (data.user.telefones && data.user.telefones.length > 0) { %>
                             <% data.user.telefones.forEach(function(telefone, index) { %>
                                 <li>
-                                    <input type="text" name="telefones[]" value="<%= telefone.telefone %>" class="border border-gray-300 rounded-md p-2 w-full mb-2" />
+                                    <input type="text" name="telefones" required value="<%= telefone.telefone %>" class="border border-gray-300 rounded-md p-2 w-full mb-2" />
                                     <button type="button" class="text-red-500 hover:text-red-700 ml-2" onclick="removetelefone(this)">Excluir</button>
                                 </li>
                             <% }); %>
@@ -85,10 +84,9 @@
 
         function addEmail() {
             const emailList = document.getElementById('emails-list');
-            const newIndex = emailList.children.length;
             const newEmail = document.createElement('li');
             newEmail.innerHTML = `
-                <input type="text" name="emails[${newIndex}]" class="border border-gray-300 rounded-md p-2 w-full mb-2" />
+                <input type="text" name="emails" required class="border border-gray-300 rounded-md p-2 w-full mb-2" />
                 <button type="button" class="text-red-500 hover:text-red-700 ml-2" onclick="removeEmail(this)">Excluir</button>
             `;
             emailList.appendChild(newEmail);
@@ -99,10 +97,9 @@
 
         function addtelefone() {
             const telefoneList = document.getElementById('telefones-list');
-            const newIndex = telefoneList.children.length;
             const newtelefone = document.createElement('li');
             newtelefone.innerHTML = `
-                <input type="text" name="telefones[${newIndex}]" class="border border-gray-300 rounded-md p-2 w-full mb-2" />
+                <input type="text" name="telefones"  required class="border border-gray-300 rounded-md p-2 w-full mb-2" />
                 <button type="button" class="text-red-500 hover:text-red-700 ml-2" onclick="removetelefone(this)">Excluir</button>
             `;
             telefoneList.appendChild(newtelefone);

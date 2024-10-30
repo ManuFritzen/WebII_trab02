@@ -24,4 +24,4 @@ app.get('/home', (req, res) => {
 import usersRouter from './routes/users-routes.js';
 app.use('/users', usersRouter);
 
-app.listen(3000, () => console.log("Server iniciou na porta 3000"));
+app.listen(3001, () => console.log("Server iniciou na porta 3002"));

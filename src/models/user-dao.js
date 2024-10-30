@@ -105,13 +105,11 @@ class UserDao {
     }
 
     deletetelefones(userId) {
-        // Primeiro, excluímos todos os telefones antigos
         const deleteStmt = db.prepare('DELETE FROM telefones WHERE user_id = ?');
         deleteStmt.run(userId);
      
     }
     deleteemails(userId) {
-        // Primeiro, excluímos todos os e-mails antigos
         const deleteStmt = db.prepare('DELETE FROM emails WHERE user_id = ?');
         deleteStmt.run(userId);
         
